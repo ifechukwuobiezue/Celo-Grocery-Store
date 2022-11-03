@@ -10,13 +10,10 @@
 4. Switch to the alfajores testnet in the CeloExtensionWallet.
 
 ### Test
-1. Create a product.
-2. Check if product metric increased.
+1. Create/Add a product.
+2. Check Counter dashboard for analysis
 3. Create a second account in your extension wallet and send them cUSD tokens.
-4. Buy product with secondary account.
-5. Check if sold metric increased.
-6. Check if balance of first account increased.
-7. Buy a product out, then restock the product.
+
 
 
 
