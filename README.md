@@ -1,13 +1,5 @@
-## Description
-This is a simple dapp where users can:
-* See products hosted on the Celo Blockchain
-*See products sold and displayed
-* Purchase products with cUSD and pay the owner
-* Add your own products to the dapp
-* Edit the Number of products availiable
-
 ## Live Demo
-[The Celo Store](https://ceedotech.github.io/Celo-Grocery-Store/)
+[Celo Grocery Store](https://ceedotech.github.io/Celo-Grocery-Store/)
 
 ## Usage
 
