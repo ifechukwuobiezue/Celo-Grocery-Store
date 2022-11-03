@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>celo grocery store</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Css Styles -->
+    <style>
+      :root {
+        --bs-font-sans-serif: "DM Sans", sans-serif;
+      }
+
+      @media (min-width: 576px) {
+        .card {
+          border: 0;
+          box-shadow: rgb(0 0 0 / 5%) 0px 10px 20px;
+          border-radius: 10px;
+        }
+
+        .card-img-top {
+          width: 100%;
+          height: 20vw;
+          object-fit: cover;
+        }
+      }
+      /* Container holding the image and the text */
+        .container {
+          position: relative;
+          text-align: center;
+         }
+
+     /* Banner text */
+       .top-left {
+          padding-left: 10px;
+          color: #275727;
+          font-size: 40px;
+         font-weight: 900;
+         font-family: cursive;
+         position: absolute;
+         top: 30%;
+         left: 16px;
+       }
+
+/* Counter styles */
+       #counter{
+        background-color: rgb(241, 235, 235);
+        padding: 20px;
+        border-left: 10px inset #5bc85c;
+      }
+      #listcount{
+        color: red;
+      }
+      #soldcount{
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-2" style="max-width: 72em">
+      <!-- Navbar -->
+      <nav class="navbar navbar-light bg-white">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img
+              src="data:image/png;base64,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"
+              width="30"
+              height="30"
+              class="d-inline-block align-top"
+              alt=""
+            />
+            <span class="logo">Celo Grocery Mart</span>
+          </a>
+
+          <span class="nav-link border rounded-pill bg-light">
+            <span id="balance">0</span>
+            celoUSD
+          </span>
+        </div>
+      </nav>
+
+      <!-- Page content -->
+      <!-- message box -->
+      <div class="alert alert-warning sticky-top mt-2" role="alert">
+        <span id="notification">⌛ Loading...</span>
+      </div>
+
+      <!-- Page Banner -->
+      <div class="container">
+  <img src="https://img.freepik.com/premium-photo/shopping-basket-full-food-groceries-table-supermarket_8087-1865.jpg?w=2000" alt="Snow" style="width:100%;">
+  <div class="top-left">Order your fresh and Organic <br> Vegetables! @discount</div>
+</div>
+      <!-- Add product button -->
+      <div class="text-center mb-4" style="margin-top: 2em">
+        <a
+          class="btn btn-success btn-lg"
+          data-bs-toggle="modal"
+          data-bs-target="#addModal"
+        >
+          Add product
+        </a>
+      </div>
+      <!-- Counter -->
+      <div id="counter" class="d-flex  justify-content-around "
+      style="margin-bottom: 2em;">
+        <h3>
+          Grocerys on display: <span id="listcount">0</span>
+        </h3>
+        <h3>
+          Grocerys sold: <span id="soldcount">0</span>
+        </h3>
+      </div>
+      <main id="marketplace" class="row"></main>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addModal"
+      tabindex="-1"
+      aria-labelledby="newProductModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newProductModalLabel">New Product</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-row">
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newProductName"
+                    class="form-control mb-2"
+                    placeholder="Enter name of product"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newImgUrl"
+                    class="form-control mb-2"
+                    placeholder="Enter image url"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newProductDescription"
+                    class="form-control mb-2"
+                    placeholder="Enter product description"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newProductQuantity"
+                    class="form-control mb-2"
+                    placeholder="Enter product quantity"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newLocation"
+                    class="form-control mb-2"
+                    placeholder="Enter location"
+                  />
+                </div>
+                <div class="col">
+                  <input
+                    type="text"
+                    id="newPrice"
+                    class="form-control mb-2"
+                    placeholder="Enter price"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-light border"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+              id="newProductBtn"
+            >
+              Add product
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/Modal-->
+
+
+    <!-- Add new products modal -->
+    <div
+      class="modal fade"
+      id="restock-modal"
+      tabindex="-1"
+      aria-labelledby="newProductModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Add more this Product</h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+            <div>
+              <input
+                type="text"
+                id="restockfield"
+                class="form-control"
+                placeholder="Enter Quantity"
+                style="width: 70%;
+                margin: 10px;
+                margin-left: 70px;"
+              
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                id="restockbtnsubmit"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Buy Quantity Modal -->
+    <div
+      class="modal fade"
+      id="quantity-modal"
+      tabindex="-1"
+      aria-labelledby="newProductModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Enter Quantity</h3>
+            <button
+              type="button "
+              class="btn-close btn-success"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+            <div>
+              <input
+                type="text"
+                id="buyquantity"
+                class="form-control mb-2"
+                placeholder="Enter Quantity"
+                style="width: 70%;
+                margin: 10px;
+                margin-left: 70px;
+                "
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+                id="buyquantitysubmit"
+              >
+                Buy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
+  </body>
+</html>
