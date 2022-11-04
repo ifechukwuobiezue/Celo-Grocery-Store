@@ -13,7 +13,7 @@
 1. Create/Add a product/Restock.
 2. Check Counter dashboard for analysis
 3. Create a second account in your extension wallet and send them cUSD tokens.
-4. View price product was last sold for
+4. View price product was last sold for (that gives you an idea that you are getting a product at discount/higher price
 
 
 
