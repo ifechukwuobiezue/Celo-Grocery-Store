@@ -33,8 +33,18 @@ contract Marketplace {
         uint sold;
     }
 
+    struct Order{
+        address initiator;
+        string location;
+        uint timestamp;
+        bool fufilled;
+    }
+
     //Working with multiple Products
     mapping (uint => Product) internal products;
+    mapping (address => Order) internal orders;
+    
+    address admin;
 
     //All Events triggered when specific functions are called
     event AddedProduct(address indexed owner, uint256 product_quantity, uint256 product_index);
@@ -42,17 +52,31 @@ contract Marketplace {
     event RestockedProducts(address indexed owner, uint product_quantity_added, uint256 product_index);
     event ProductOutOfStock(address indexed owner, uint256 product_index);
 
+    constructor(){
+        admin = msg.sender;
+    }
+
+    modifier onlyOwner(uint index){
+        require(msg.sender == products[index].owner, "Only Owner");
+        _;
+    }
+
     //funtion to Add Product
     function writeProduct(
-        string memory _name,
-        string memory _image,
-        string memory _description, 
-        string memory _location,
+        string calldata _name,
+        string calldata _image,
+        string calldata _description, 
+        string calldata _location,
         uint _quantity,
         uint _price
     ) public 
     {
         require(_price > 0 && _quantity > 0, "invalid input");
+         require(bytes(_name).length > 0, "Empty name");
+        require(bytes(_image).length > 0, "Empty image");
+        require(bytes(_description).length > 0, "Empty description");
+        require(bytes(_location).length > 0, "Empty location");
+
         products[productsLength] = Product(
             payable(msg.sender),
             _name,
@@ -89,6 +113,21 @@ contract Marketplace {
         );
     }
 
+    function getOrder(address _address) public view returns(
+        address,
+        string memory,
+        uint,
+        bool
+    ){
+        return(
+            orders[_address].initiator,
+            orders[_address].location,
+            orders[_address].timestamp,
+            orders[_address].fufilled
+        );
+    }
+
+
 //function to buy Product
     function buyProduct(uint _index, uint256 quantity) public payable  {
         require (quantity <= products[_index].quantity, "You cannot buy more than the stock!");
@@ -104,16 +143,30 @@ contract Marketplace {
         products[_index].quantity -= quantity;
         products[_index].sold  +=  quantity;
         soldUnits += quantity;
-
+        //Add product to orders
+        orders[msg.sender] = Order(
+            msg.sender,
+            products[_index].location,
+            block.timestamp,
+            false
+        );
         emit BoughtProduct(msg.sender, quantity, _index); // emiting the BoughtProduct event
         if (products[_index].quantity == 0) {
             emit ProductOutOfStock(products[_index].owner, _index); // emiting the ProductOutOfStock event if quantity is 0
         }
     }
+
+    function fufillOrder(address _address) public {
+        require (msg.sender == admin, "Cannot fufill order");
+        orders[_address].fufilled = true;
+    }
+
+    function deleteProduct(uint _index) public onlyOwner(_index) {
+        delete products[_index];
+    }
     
     //Restock function to add more grocerys when finished
-    function restock(uint _index,uint _quantity) public {
-        require (msg.sender == products[_index].owner, "Only the owner can restock");
+    function restock(uint _index,uint _quantity) public onlyOwner(_index){
         products[_index].quantity += _quantity;
         emit RestockedProducts(msg.sender, _quantity, _index);
     }
